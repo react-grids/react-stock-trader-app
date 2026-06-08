@@ -1,0 +1,215 @@
+/* ============================================================================
+   Theme cohesion layer.
+
+   One semantic palette drives every surface: app chrome, Ignite UI grids,
+   the Dock Manager, charts, and native scrollbars. Colors are keyed off
+   [data-variant] (dark/light) and [data-palette] (material/bootstrap/fluent/
+   indigo) set on <html> by themeRegistry.applyTheme().
+
+   Rule: odd/even grid rows are intentionally identical (no zebra striping).
+   ============================================================================ */
+
+:root {
+  /* gain/loss are shared defaults; overridden per variant below */
+  --app-gain: #22c98a;
+  --app-loss: #ff5b6e;
+  --app-gain-soft: rgba(34, 201, 138, 0.16);
+  --app-loss-soft: rgba(255, 91, 110, 0.16);
+  --app-flash-up: rgba(34, 201, 138, 0.55);
+  --app-flash-down: rgba(255, 91, 110, 0.55);
+  --app-radius: 6px;
+  --app-mono: 'SF Mono', 'JetBrains Mono', 'Roboto Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* ---------- DARK base ---------- */
+:root[data-variant='dark'] {
+  --app-bg: #0b0f17;
+  --app-surface: #121826;
+  --app-surface-2: #0e131f;
+  --app-header: #161d2e;
+  --app-elevated: #1a2233;
+  --app-border: #232c40;
+  --app-border-strong: #2e3a54;
+  --app-text: #e6ecf5;
+  --app-text-muted: #8a97ad;
+  --app-text-dim: #5d6a82;
+  --app-hover: #1d2740;
+  --app-selected: #243154;
+  --app-accent: #3d8bff;
+  --app-accent-contrast: #ffffff;
+  --app-gain: #2ee08a;
+  --app-loss: #ff5b6e;
+  --app-gain-soft: rgba(46, 224, 138, 0.14);
+  --app-loss-soft: rgba(255, 91, 110, 0.14);
+  --app-flash-up: rgba(46, 224, 138, 0.45);
+  --app-flash-down: rgba(255, 91, 110, 0.45);
+  --app-scroll-track: #0e131f;
+  --app-scroll-thumb: #2b3a57;
+  --app-scroll-thumb-hover: #3a4d72;
+  --app-shadow: rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- LIGHT base ---------- */
+:root[data-variant='light'] {
+  --app-bg: #eef1f6;
+  --app-surface: #ffffff;
+  --app-surface-2: #f4f6fa;
+  --app-header: #e9edf4;
+  --app-elevated: #ffffff;
+  --app-border: #d7dde8;
+  --app-border-strong: #c3ccdb;
+  --app-text: #1b2330;
+  --app-text-muted: #5d6a82;
+  --app-text-dim: #8a97ad;
+  --app-hover: #eaf0fb;
+  --app-selected: #d8e6ff;
+  --app-accent: #1565d8;
+  --app-accent-contrast: #ffffff;
+  --app-gain: #0a9d5a;
+  --app-loss: #d93a4a;
+  --app-gain-soft: rgba(10, 157, 90, 0.12);
+  --app-loss-soft: rgba(217, 58, 74, 0.12);
+  --app-flash-up: rgba(10, 157, 90, 0.28);
+  --app-flash-down: rgba(217, 58, 74, 0.28);
+  --app-scroll-track: #e6eaf1;
+  --app-scroll-thumb: #c0c9d8;
+  --app-scroll-thumb-hover: #a6b2c6;
+  --app-shadow: rgba(20, 30, 50, 0.15);
+}
+
+/* ---------- per-palette accent + background hue tweaks ---------- */
+:root[data-variant='dark'][data-palette='material'] { --app-accent: #4aa3ff; --app-bg: #0b0f17; --app-surface: #121826; }
+:root[data-variant='dark'][data-palette='bootstrap'] { --app-accent: #4f8cff; --app-bg: #0a0d12; --app-surface: #11151d; --app-surface-2: #0c0f15; --app-header: #141a24; --app-border: #1e2530; }
+:root[data-variant='dark'][data-palette='fluent']    { --app-accent: #2ea0ff; --app-bg: #0d0f13; --app-surface: #16191f; --app-surface-2: #101216; --app-header: #1a1e25; --app-border: #262b33; }
+:root[data-variant='dark'][data-palette='indigo']    { --app-accent: #8b8bff; --app-bg: #0c0c18; --app-surface: #15162a; --app-surface-2: #101023; --app-header: #1a1b33; --app-border: #272948; --app-border-strong: #34376a; --app-hover: #21234a; --app-selected: #2c2f63; }
+
+:root[data-variant='light'][data-palette='material'] { --app-accent: #1565d8; }
+:root[data-variant='light'][data-palette='bootstrap'] { --app-accent: #0d6efd; }
+:root[data-variant='light'][data-palette='fluent']    { --app-accent: #0f6cbd; }
+:root[data-variant='light'][data-palette='indigo']    { --app-accent: #5b5bd6; --app-bg: #f0f0f8; --app-surface: #ffffff; --app-selected: #e2e2fb; --app-hover: #eeeefb; }
+
+/* ============================================================================
+   App chrome
+   ============================================================================ */
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: var(--ig-font-family, 'Segoe UI', system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   Ignite UI Grid tokens — mapped to the app palette (strict acceptance list).
+   Odd/even identical => no zebra. Applied to every grid in the app.
+   ============================================================================ */
+igc-grid, igx-grid, .ig-grid-surface {
+  --ig-grid-background: var(--app-surface);
+  --ig-grid-content-background: var(--app-surface);
+  --ig-grid-row-odd-background: var(--app-surface);
+  --ig-grid-row-even-background: var(--app-surface);
+  --ig-grid-row-hover-background: var(--app-hover);
+  --ig-grid-row-selected-background: var(--app-selected);
+  --ig-grid-header-background: var(--app-header);
+  --ig-grid-header-text-color: var(--app-text-muted);
+  --ig-grid-content-text-color: var(--app-text);
+  --ig-grid-row-border-color: var(--app-border);
+  --ig-grid-cell-active-border-color: var(--app-accent);
+  --ig-grid-group-row-background: var(--app-header);
+  --ig-grid-group-label-column-name-text: var(--app-text);
+  --ig-grid-group-count-background: var(--app-accent);
+  --ig-grid-group-count-text-color: var(--app-accent-contrast);
+  --ig-grid-row-selected-text-color: var(--app-text);
+  --ig-grid-row-hover-text-color: var(--app-text);
+  --ig-grid-header-border-color: var(--app-border);
+  --ig-grid-row-highlight: var(--app-accent);
+}
+
+/* Grid host fills its pane */
+.ig-grid-surface { width: 100%; height: 100%; }
+
+/* Conditional cell coloring (paired with cellStyles for background tints) */
+.cell-gain { color: var(--app-gain) !important; font-variant-numeric: tabular-nums; }
+.cell-loss { color: var(--app-loss) !important; font-variant-numeric: tabular-nums; }
+.cell-flat { color: var(--app-text-muted) !important; font-variant-numeric: tabular-nums; }
+.cell-num  { font-variant-numeric: tabular-nums; font-family: var(--app-mono); }
+
+/* ============================================================================
+   Dock Manager tokens
+   ============================================================================ */
+igc-dockmanager {
+  --igc-dock-background: var(--app-bg);
+  --igc-dock-text: var(--app-text);
+  --igc-pane-content-background: var(--app-surface);
+  --igc-pane-content-text: var(--app-text);
+  --igc-pane-header-background: var(--app-header);
+  --igc-pane-header-text: var(--app-text);
+  --igc-tab-background: var(--app-surface-2);
+  --igc-tab-text: var(--app-text-muted);
+  --igc-tab-border-color: var(--app-border);
+  --igc-tab-background-active: var(--app-surface);
+  --igc-tab-text-active: var(--app-text);
+  --igc-tab-border-color-active: var(--app-accent);
+  --igc-border-color: var(--app-border);
+  --igc-accent-color: var(--app-accent);
+  --igc-active-color: var(--app-accent);
+  --igc-splitter-background: var(--app-bg);
+  --igc-splitter-handle: var(--app-border-strong);
+  --igc-button-text: var(--app-text-muted);
+  --igc-flyout-shadow-color: var(--app-shadow);
+  --igc-floating-pane-border-color: var(--app-border-strong);
+  --igc-pinned-header-background: var(--app-header);
+  --igc-pinned-header-text: var(--app-text-muted);
+  --igc-context-menu-background: var(--app-elevated);
+  --igc-context-menu-color: var(--app-text);
+  --igc-context-menu-background-active: var(--app-accent);
+  --igc-context-menu-color-active: var(--app-accent-contrast);
+  --igc-joystick-background: var(--app-elevated);
+  --igc-joystick-border-color: var(--app-border-strong);
+  --igc-joystick-icon-color: var(--app-text-muted);
+  --igc-joystick-background-active: var(--app-accent);
+  --igc-joystick-icon-color-active: var(--app-accent-contrast);
+  /* dock scrollbars */
+  --igc-sb-track-bg-color: var(--app-scroll-track);
+  --igc-sb-track-bg-color-hover: var(--app-scroll-track);
+  --igc-sb-corner-bg: var(--app-scroll-track);
+  --igc-sb-thumb-bg-color: var(--app-scroll-thumb);
+  --igc-sb-thumb-bg-color-hover: var(--app-scroll-thumb-hover);
+  --igc-sb-size: 12px;
+  --igc-sb-thumb-border-radius: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+igc-dockmanager::part(content-pane) { background: var(--app-surface); }
+igc-dockmanager::part(pane-header) {
+  border-bottom: 1px solid var(--app-border);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+igc-dockmanager::part(tab-header) { font-size: 0.74rem; }
+igc-dockmanager::part(tab-header selected) {
+  border-bottom: 2px solid var(--app-accent);
+  color: var(--app-text);
+}
+
+/* ============================================================================
+   Native scrollbars — palette matched everywhere (no bright blue defaults)
+   ============================================================================ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-scroll-thumb) var(--app-scroll-track);
+}
+*::-webkit-scrollbar { width: 11px; height: 11px; }
+*::-webkit-scrollbar-track { background: var(--app-scroll-track); }
+*::-webkit-scrollbar-thumb {
+  background: var(--app-scroll-thumb);
+  border-radius: 6px;
+  border: 2px solid var(--app-scroll-track);
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--app-scroll-thumb-hover); }
+*::-webkit-scrollbar-corner { background: var(--app-scroll-track); }

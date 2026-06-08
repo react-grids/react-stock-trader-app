@@ -8,6 +8,14 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
+    /* Map packages whose published `typings` path is broken (points to root
+       instead of ./src). Typecheck-only — Vite resolves the JS via `main`. */
+    "baseUrl": ".",
+    "paths": {
+      "igniteui-react-grids": ["./node_modules/igniteui-react-grids/src/grids.d.ts"],
+      "igniteui-react-dockmanager": ["./node_modules/igniteui-react-dockmanager/src/dock-manager.d.ts"]
+    },
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

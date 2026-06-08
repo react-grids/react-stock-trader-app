@@ -1,0 +1,296 @@
+/* ============================================================================
+   Component chrome — all colors resolve from the palette layer (palette.css).
+   ============================================================================ */
+
+.workstation {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: var(--app-bg);
+  overflow: hidden;
+}
+.dock-host { flex: 1 1 auto; min-height: 0; position: relative; }
+.slot-fill { width: 100%; height: 100%; overflow: hidden; }
+
+/* ---------------- Top bar ---------------- */
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  background: linear-gradient(180deg, var(--app-header), var(--app-surface-2));
+  border-bottom: 1px solid var(--app-border);
+  padding: 6px 14px 0;
+  gap: 4px 0;
+  flex: 0 0 auto;
+}
+.topbar-left { display: flex; align-items: center; gap: 22px; min-width: 0; }
+.topbar-right { display: flex; align-items: center; gap: 18px; justify-self: end; }
+
+.brand { display: flex; align-items: baseline; gap: 8px; }
+.brand-mark { color: var(--app-accent); font-size: 1.1rem; transform: translateY(1px); }
+.brand-name { font-weight: 800; letter-spacing: 0.08em; font-size: 1.05rem; color: var(--app-text); }
+.brand-accent { color: var(--app-accent); }
+.brand-sub {
+  font-size: 0.6rem; letter-spacing: 0.28em; color: var(--app-text-muted);
+  border-left: 1px solid var(--app-border-strong); padding-left: 8px; align-self: center;
+}
+
+.index-strip { display: flex; gap: 14px; overflow: hidden; }
+.index-chip { display: flex; flex-direction: column; line-height: 1.15; }
+.index-label { font-size: 0.58rem; letter-spacing: 0.1em; color: var(--app-text-muted); }
+.index-pct { font-size: 0.82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.idx-up { color: var(--app-gain); }
+.idx-down { color: var(--app-loss); }
+.idx-flat { color: var(--app-text-muted); }
+
+.market-status {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.66rem; letter-spacing: 0.12em; color: var(--app-text-muted);
+}
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--app-gain);
+  box-shadow: 0 0 0 0 var(--app-gain); animation: pulse 2.4s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-gain) 60%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.clock {
+  font-family: var(--app-mono); font-size: 0.92rem; font-weight: 600;
+  color: var(--app-text); font-variant-numeric: tabular-nums;
+}
+.clock-tz { color: var(--app-text-muted); font-size: 0.62rem; }
+
+/* ---------------- Streaming ticker marquee ---------------- */
+.ticker {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  border-top: 1px solid var(--app-border);
+  background: var(--app-surface-2);
+  position: relative;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+.ticker-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: marquee 90s linear infinite;
+  will-change: transform;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 0 16px; height: 30px;
+  border: none; background: none; cursor: pointer;
+  border-right: 1px solid var(--app-border);
+  font-size: 0.76rem;
+}
+.ticker-item:hover { background: var(--app-hover); }
+.ticker-sym { font-weight: 700; color: var(--app-text); letter-spacing: 0.02em; }
+.ticker-last {
+  font-variant-numeric: tabular-nums; color: var(--app-text-muted);
+  padding: 1px 4px; border-radius: 3px;
+}
+.ticker-chg { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 0.72rem; }
+
+.flash-up { animation: flashUp 0.85s ease-out; }
+.flash-down { animation: flashDown 0.85s ease-out; }
+@keyframes flashUp {
+  0% { background: var(--app-flash-up); color: #fff; }
+  100% { background: transparent; }
+}
+@keyframes flashDown {
+  0% { background: var(--app-flash-down); color: #fff; }
+  100% { background: transparent; }
+}
+
+/* ---------------- Pane scaffolding ---------------- */
+.pane {
+  display: flex; flex-direction: column; height: 100%; width: 100%;
+  background: var(--app-surface); overflow: hidden;
+}
+.pane-toolbar {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 10px;
+  background: var(--app-surface-2);
+  border-bottom: 1px solid var(--app-border);
+  font-size: 0.72rem; color: var(--app-text-muted);
+  min-height: 28px;
+}
+.pane-toolbar .spacer { flex: 1 1 auto; }
+.pane-title { font-weight: 700; letter-spacing: 0.05em; color: var(--app-text); text-transform: uppercase; font-size: 0.7rem; }
+.pane-badge {
+  font-variant-numeric: tabular-nums; background: var(--app-elevated);
+  border: 1px solid var(--app-border); border-radius: 4px; padding: 1px 6px; color: var(--app-text-muted);
+}
+.pane-body { flex: 1 1 auto; min-height: 0; position: relative; }
+
+.sym-pill {
+  font-weight: 800; color: var(--app-accent); letter-spacing: 0.04em;
+  background: color-mix(in srgb, var(--app-accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-accent) 45%, transparent);
+  border-radius: 4px; padding: 1px 8px;
+}
+
+/* search box used in watchlist / market data */
+.pane-search {
+  background: var(--app-bg); border: 1px solid var(--app-border);
+  border-radius: 4px; color: var(--app-text); font-size: 0.74rem;
+  padding: 3px 8px; outline: none; width: 130px;
+}
+.pane-search:focus { border-color: var(--app-accent); }
+.seg {
+  display: inline-flex; border: 1px solid var(--app-border); border-radius: 5px; overflow: hidden;
+}
+.seg button {
+  background: var(--app-surface); color: var(--app-text-muted); border: none;
+  padding: 3px 9px; font-size: 0.7rem; cursor: pointer; border-right: 1px solid var(--app-border);
+}
+.seg button:last-child { border-right: none; }
+.seg button.active { background: var(--app-accent); color: var(--app-accent-contrast); font-weight: 700; }
+.seg button:hover:not(.active) { background: var(--app-hover); color: var(--app-text); }
+
+/* ---------------- Level II depth ladder ---------------- */
+.depth { display: grid; grid-template-columns: 1fr 1fr; height: 100%; font-size: 0.76rem; }
+.depth-col { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.depth-col.asks { border-left: 1px solid var(--app-border); }
+.depth-head {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  padding: 4px 8px; color: var(--app-text-muted); font-size: 0.62rem;
+  letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--app-border);
+  background: var(--app-header);
+}
+.depth-rows { flex: 1 1 auto; overflow-y: auto; min-height: 0; }
+.depth-row {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr 1fr;
+  padding: 2px 8px; font-variant-numeric: tabular-nums; align-items: center;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-border) 50%, transparent);
+}
+.depth-bar { position: absolute; top: 0; bottom: 0; right: 0; opacity: 0.16; pointer-events: none; }
+.bids .depth-bar { background: var(--app-gain); left: 0; right: auto; }
+.asks .depth-bar { background: var(--app-loss); }
+.depth-price.bid { color: var(--app-gain); font-weight: 700; }
+.depth-price.ask { color: var(--app-loss); font-weight: 700; }
+.depth-size, .depth-orders { color: var(--app-text); z-index: 1; }
+.depth-orders { color: var(--app-text-muted); text-align: right; }
+.depth-size { text-align: right; }
+.depth-spread {
+  grid-column: 1 / -1; text-align: center; padding: 4px; font-size: 0.66rem;
+  color: var(--app-text-muted); background: var(--app-surface-2);
+  border-top: 1px solid var(--app-border); border-bottom: 1px solid var(--app-border);
+}
+
+/* ---------------- Config pane ---------------- */
+.config { padding: 14px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 18px; }
+.config-group { display: flex; flex-direction: column; gap: 8px; }
+.config-label {
+  font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--app-text-muted); font-weight: 700;
+}
+.swatch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.swatch {
+  display: flex; align-items: center; gap: 9px; cursor: pointer;
+  padding: 9px 11px; border-radius: 7px; border: 1px solid var(--app-border);
+  background: var(--app-surface-2); color: var(--app-text); font-size: 0.78rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.swatch:hover { background: var(--app-hover); }
+.swatch.active { border-color: var(--app-accent); background: color-mix(in srgb, var(--app-accent) 14%, var(--app-surface-2)); }
+.swatch-dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); }
+.config-row { display: flex; gap: 8px; }
+.config-note { font-size: 0.7rem; color: var(--app-text-muted); line-height: 1.5; }
+.config-meta {
+  margin-top: auto; font-size: 0.66rem; color: var(--app-text-muted);
+  border-top: 1px solid var(--app-border); padding-top: 12px; line-height: 1.6;
+}
+.config-meta b { color: var(--app-text); }
+
+/* quote header strip (chart pane) */
+.quote-head {
+  display: flex; align-items: baseline; gap: 16px; padding: 6px 12px;
+  background: var(--app-surface-2); border-bottom: 1px solid var(--app-border); flex: 0 0 auto;
+}
+.quote-head .qh-sym { font-size: 1.05rem; font-weight: 800; color: var(--app-text); }
+.quote-head .qh-name { font-size: 0.72rem; color: var(--app-text-muted); }
+.quote-head .qh-last { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.quote-head .qh-chg { font-size: 0.86rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.qh-stat { display: flex; flex-direction: column; line-height: 1.2; }
+.qh-stat .k { font-size: 0.58rem; letter-spacing: 0.08em; color: var(--app-text-muted); text-transform: uppercase; }
+.qh-stat .v { font-size: 0.78rem; color: var(--app-text); font-variant-numeric: tabular-nums; }
+.chart-wrap { flex: 1 1 auto; min-height: 0; position: relative; }
+
+/* ----------------------------------------------------------------------------
+   IgrFinancialChart light-DOM re-skin.
+   The chart renders its toolbar, range selector, type/indicator menus and
+   legend as plain HTML with a HARD-CODED LIGHT THEME (light-gray toolbar,
+   black/white text, white dropdowns). These can't be themed via chart props,
+   so override the shipped classes here. The plot/volume canvas is themed via
+   props in ChartPane; the zoom slider is disabled (no color API).
+   ---------------------------------------------------------------------------- */
+.chart-wrap .financialChartToolbar {
+  background: var(--app-surface-2) !important;
+  color: var(--app-text-muted) !important;
+  border-bottom: 1px solid var(--app-border) !important;
+}
+.chart-wrap .financialChartToolbarArea,
+.chart-wrap .financialChartTypePicker,
+.chart-wrap .financialChartIndicators,
+.chart-wrap .financialChartRangeSelector { background: transparent !important; }
+
+/* range selector buttons (1M / 3M / 6M / ALL) — default black text */
+.chart-wrap .financialChartRangeSelectorLabel,
+.chart-wrap .financialChartRangeSelectorLabelSpan,
+.chart-wrap .rangeSelectorAll,
+.chart-wrap .rangeSelectorOneMonth,
+.chart-wrap .rangeSelectorThreeMonths,
+.chart-wrap .rangeSelectorSixMonths {
+  color: var(--app-text-muted) !important;
+  background: transparent !important;
+  border-radius: 4px;
+}
+.chart-wrap .financialChartRangeSelectorLabelSpan:hover,
+.chart-wrap .rangeSelectorAll:hover,
+.chart-wrap .rangeSelectorOneMonth:hover,
+.chart-wrap .rangeSelectorThreeMonths:hover,
+.chart-wrap .rangeSelectorSixMonths:hover { background: var(--app-hover) !important; color: var(--app-text) !important; }
+/* selected range pill (shipped light-gray #dadada) */
+.chart-wrap .financialChartRangeSelectorLabelSpan {
+  background: color-mix(in srgb, var(--app-accent) 24%, transparent) !important;
+  color: var(--app-text) !important;
+}
+
+/* type-picker + indicator menu trigger buttons */
+.chart-wrap .financialChartTypePickerDropDownButton,
+.chart-wrap .financialChartIndicatorMenuDropDownButton,
+.chart-wrap .financialChartIndicatorMenuLabel { color: var(--app-text-muted) !important; }
+.chart-wrap .financialChartTypePickerDropDownButton:hover,
+.chart-wrap .financialChartIndicatorMenuDropDownButton:hover { background: var(--app-hover) !important; }
+
+/* dropdown menus (shipped white bg / black text) */
+.chart-wrap .financialChartTypePickerDropDownMenu,
+.chart-wrap .financialChartIndicatorMenuDropDownMenu,
+.chart-wrap .financialChartIndicatorMenuDropDownMenuList {
+  background: var(--app-elevated) !important;
+  color: var(--app-text) !important;
+  border: 1px solid var(--app-border) !important;
+  box-shadow: 0 8px 22px var(--app-shadow) !important;
+}
+.chart-wrap .financialChartListItem { color: var(--app-text) !important; background: transparent !important; }
+.chart-wrap .financialChartListItem:hover { background: var(--app-hover) !important; }
+
+/* legend + toolbar icons */
+.chart-wrap .financialChartLegend,
+.chart-wrap .ig-chart-legend-items-list,
+.chart-wrap .financialChartListItem label { color: var(--app-text-muted) !important; }
+.chart-wrap .ui-icon { color: var(--app-text-muted) !important; }
+.chart-wrap .ui-icon svg { fill: currentColor !important; }
