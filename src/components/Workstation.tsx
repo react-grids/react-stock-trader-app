@@ -7,6 +7,7 @@ import {
 } from 'igniteui-react-dockmanager';
 import { TopBar } from './TopBar';
 import { Watchlist } from './Watchlist';
+import { SectorMap } from './SectorMap';
 import { Positions } from './Positions';
 import { ConfigPane } from './ConfigPane';
 import { ChartPane } from './ChartPane';
@@ -41,6 +42,7 @@ const LAYOUT: IgrDockManagerLayout = {
         size: 23,
         panes: [tabGroup([
           contentPane('content-watchlist', 'Watchlist'),
+          contentPane('content-sectormap', 'Sector Map'),
           contentPane('content-positions', 'Positions'),
           contentPane('content-config', 'Config'),
         ])],
@@ -92,6 +94,7 @@ export function Workstation() {
       <div className="dock-host">
         <IgrDockManager ref={dockRef}>
           <div slot="content-watchlist" className="slot-fill"><Watchlist /></div>
+          <div slot="content-sectormap" className="slot-fill"><SectorMap /></div>
           <div slot="content-positions" className="slot-fill"><Positions /></div>
           <div slot="content-config" className="slot-fill"><ConfigPane /></div>
           <div slot="content-chart" className="slot-fill"><ChartPane /></div>

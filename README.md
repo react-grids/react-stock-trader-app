@@ -1,6 +1,6 @@
 # FinTrader Pro — A Real‑Time Dark‑Mode Trading Workstation Built with React 19 + Ignite UI for React
 
-> **TL;DR** — FinTrader Pro is an open, mock‑data **trading terminal** built entirely with **[Ignite UI for React](https://www.infragistics.com/products/ignite-ui-react)**. It combines a dockable multi‑pane workspace (`IgrDockManager`), a candlestick **financial chart** (`IgrFinancialChart`), and six high‑density **data grids** (`IgrGrid`) — a 232‑symbol watchlist, a 1,000‑row order blotter, Level II depth, Time & Sales, positions, and market movers — all wired to a shared, streaming live‑feed context and a runtime theming engine (Light/Dark × Material/Bootstrap/Fluent/Indigo, plus density). Everything is linked: click a symbol anywhere and the chart, order book, and tape follow.
+> **TL;DR** — FinTrader Pro is an open, mock‑data **trading terminal** built entirely with **[Ignite UI for React](https://www.infragistics.com/products/ignite-ui-react)**. It combines a dockable multi‑pane workspace (`IgrDockManager`), a candlestick **financial chart** (`IgrFinancialChart`), a finviz‑style **sector heat‑map** (`IgrTreemap`), and six high‑density **data grids** (`IgrGrid`) — a 232‑symbol watchlist, a 1,000‑row order blotter, Level II depth, Time & Sales, positions, and market movers — all wired to a shared, streaming live‑feed context and a runtime theming engine (Light/Dark × Material/Bootstrap/Fluent/Indigo, plus density). Everything is linked: click a symbol anywhere and the chart, order book, and tape follow.
 
 ![FinTrader Pro trading workstation — dark theme, candlestick chart, watchlist, Level II order book, and grouped order blotter built with Ignite UI for React](docs/screenshot.png)
 
@@ -48,6 +48,7 @@ It answers a question developers ask constantly: *"How do I build a Bloomberg‑
 
 - 🪟 **Dockable workspace** — drag, float, pin, tab, and resize every panel via `IgrDockManager`.
 - 📈 **Candlestick chart** — OHLC + volume + range selector via `IgrFinancialChart`.
+- 🟩🟥 **Sector heat‑map** — a finviz‑style `IgrTreemap`: tiles grouped by sector, sized by volume, colored red→green by % change, click‑to‑select.
 - 🔢 **Six live data grids** — watchlist (232 symbols), positions, order blotter (1,000 orders), market data, top movers, Level II depth, and Time & Sales.
 - 🔴🟢 **Conditional cell styling** — green/red coloring with trend arrows on change, % change, and P&L.
 - 🔗 **Linked selection** — pick a symbol in any grid and the chart, Level II, and tape update instantly.
@@ -64,6 +65,7 @@ Financial UIs are one of the most demanding categories of front‑end work: huge
 | --- | --- | --- |
 | Dockable, floating, tabbed layout | `IgrDockManager` | `igniteui-react-dockmanager` |
 | Candlestick / OHLC / volume chart | `IgrFinancialChart` | `igniteui-react-charts` |
+| Sector / market heat‑map | `IgrTreemap` | `igniteui-react-charts` |
 | Virtualized data grid w/ grouping, paging, conditional styles | `IgrGrid`, `IgrColumn`, `IgrPaginator` | `igniteui-react-grids` |
 
 This project leans on all three and adds the application‑level glue: a shared market‑data context, a linked selected‑symbol model, and a theming layer that makes every surface match.
@@ -98,11 +100,26 @@ That's it — no API keys, no backend. **All data is generated client‑side fro
 
 A fixed header renders the **FINTRADER** brand, four synthetic indices (FT‑Composite, FT‑Tech 100, FT‑Financials, FT‑Energy) computed live from sector aggregates, a market‑status pulse, and a live clock. Below it, a **scrolling ticker marquee** streams 56 symbols and **flashes green/red on every price change** — implemented by keying each price `<span>` on its value so only changed items re‑trigger the flash animation. Click any ticker item to jump the whole workspace to that symbol. Hover pauses the marquee.
 
-### Left column — Watchlist · Positions · Config (tabbed)
+### Left column — Watchlist · Sector Map · Positions · Config (tabbed)
 
 - **Watchlist** — 232 symbols in an `IgrGrid` with a sector filter, symbol search (debounced with `useDeferredValue`), 50‑rows‑per‑page paging, sortable columns, **tick‑direction coloring on Last**, and **arrowed green/red change / % change** via `cellStyles`.
+- **Sector Map** — a finviz‑style **`IgrTreemap` heat‑map** (see below).
 - **Positions** — an open‑position book **grouped by sector** with live mark‑to‑market, day P&L, and unrealized P&L roll‑ups in the toolbar.
 - **Config** — runtime theme controls (see [theming](#the-theming-engine-the-hard-part)).
+
+#### Sector heat‑map (`IgrTreemap`)
+
+<img src="docs/sector-map.png" alt="FinTrader Pro sector heat-map — an Ignite UI IgrTreemap grouping symbols by sector, sized by volume and colored red-to-green by percent change" width="360" align="right">
+
+The Sector Map is a **finviz‑style market heat‑map** built on `IgrTreemap`:
+
+- **Two‑level hierarchy** — symbols grouped under their sector via `idMemberPath` / `parentIdMemberPath`, with sector header bands and drill‑down.
+- **Sized by volume** — `valueMemberPath` weights each tile by trading volume (snapshotted once so the layout stays stable while colors update live).
+- **Colored by performance** — `fillScaleMode="Value"` maps each symbol's % change onto a **red → neutral → green** brush scale (`fillBrushes`) anchored at ±3%, using the same gain/loss tokens as the rest of the app.
+- **Linked + live** — clicking a tile (`nodePointerPressed`) sets the shared selected symbol; the fill recolors with the ~1s feed (throttled to ~3s so drill‑in stays navigable).
+
+<br clear="all">
+
 
 ### Center column — Candlestick chart over the Order Blotter
 
@@ -125,10 +142,10 @@ A fixed header renders the **FINTRADER** brand, four synthetic indices (FT‑Com
 │ TopBar  (brand · synthetic indices · clock · streaming ticker marquee) │
 ├───────────────┬──────────────────────────────────┬────────────────────┤
 │  Watchlist    │            Chart                 │   Market Data /     │
-│  Positions    │   (IgrFinancialChart, candle)    │   Top Movers (tabs) │
-│  Config (tabs)│                                  ├────────────────────┤
-│               ├──────────────────────────────────┤   Level II /        │
-│               │   Order Blotter (grouped grid)   │   Time & Sales(tabs)│
+│  Sector Map   │   (IgrFinancialChart, candle)    │   Top Movers (tabs) │
+│  Positions    │                                  ├────────────────────┤
+│  Config (tabs)├──────────────────────────────────┤   Level II /        │
+│  ▲ IgrTreemap │   Order Blotter (grouped grid)   │   Time & Sales(tabs)│
 └───────────────┴──────────────────────────────────┴────────────────────┘
          All panes are IgrDockManager content panes (drag / float / pin / tab)
 
@@ -222,6 +239,7 @@ src/
    ├─ Watchlist.tsx             # IgrGrid (search, filter, paging, arrows)
    ├─ Positions.tsx             # IgrGrid grouped by sector
    ├─ ChartPane.tsx             # IgrFinancialChart (candle/bar/line)
+   ├─ SectorMap.tsx             # IgrTreemap sector heat-map (volume × %change)
    ├─ OrderBlotter.tsx          # IgrGrid (grouping, paging, pills)
    ├─ MarketGrid.tsx            # market data / top movers
    ├─ LevelII.tsx               # depth ladder as an IgrGrid (gradient depth bars)
@@ -269,6 +287,9 @@ Import each theme stylesheet via Vite's `?url` loader and swap the active `<link
 
 **Can I group and page an Ignite UI grid at the same time?**
 Yes — set `groupingExpressions` on `IgrGrid` and add an `IgrPaginator` child. The Order Blotter does both with 1,000 rows.
+
+**How do I build a stock market heat‑map (treemap) in React?**
+Use `IgrTreemap` from `igniteui-react-charts`. Bind a flat hierarchy with `idMemberPath` / `parentIdMemberPath`, size tiles with `valueMemberPath`, and color them by a metric with `fillScaleMode="Value"` + `customValueMemberPath` + a `fillBrushes` red→green scale. The Sector Map pane is a complete example. **Gotcha:** give parent/root nodes *no* `value` so the treemap sums their children — an explicit `0` collapses the layout.
 
 **Does it work with React 19?**
 Yes. The app is built on React 19.2 and uses the `use()` hook for context, document metadata, and ref‑as‑prop patterns.

@@ -31,6 +31,8 @@ Paste the following into an AI agent working in an empty **Vite + React + TypeSc
 >
 > **Config pane switches:** Light/Dark × Material/Bootstrap/Fluent/Indigo (swap the theme CSS at runtime, including the dock‑manager theme) + density Small/Medium/Large (`--ig-size`).
 >
+> **Bonus — Sector heat‑map:** add an `IgrTreemap` (from `igniteui-react-charts`) as a docked tab alongside the Watchlist. Group symbols by sector, size tiles by volume, and color them red→green by % change (fintech style). Clicking a tile drives the shared selected‑symbol. Theme it to the app palette.
+>
 > Dark, dense, max data per pane. Make all data related/linked for interactions. UX is a priority — this needs to be visually stunning, functional, and real‑life.
 >
 > **Styling acceptance criteria (strict):** see §3 below.
@@ -55,6 +57,7 @@ Paste the following into an AI agent working in an empty **Vite + React + TypeSc
 | F12 | A **Config pane** to switch Light/Dark × Material/Bootstrap/Fluent/Indigo and density (S/M/L) at runtime. |
 | F13 | Conditional `cellStyles` (green/red) + trend arrows on change / %change / P&L across grids. |
 | F14 | Mock data only — no backend. Prefer a seeded PRNG so data is stable across reloads. |
+| F15 | **Bonus:** a sector heat‑map (`IgrTreemap`) as a docked tab beside the Watchlist — tiles grouped by sector, sized by volume, colored red→green by % change, clickable to drive the shared selection. |
 
 ---
 
@@ -115,9 +118,10 @@ interface Candle  { date, open, high, low, close, volume }
 
 ```ts
 import { IgrGridModule, IgrPaginatorModule } from 'igniteui-react-grids';
-import { IgrFinancialChartModule } from 'igniteui-react-charts';
+import { IgrFinancialChartModule, IgrTreemapModule } from 'igniteui-react-charts';
 [IgrGridModule, IgrPaginatorModule].forEach(m => m.register());
 IgrFinancialChartModule.register();
+IgrTreemapModule.register();
 // IgrDockManager auto-registers.
 ```
 
@@ -151,6 +155,24 @@ Pane types: `IgrDockManagerPaneType.{contentPane,splitPane,tabGroupPane,document
 - Cell template prop is `bodyTemplate`; the render fn receives `{ dataContext }` with `dataContext.cell.value` and `dataContext.cell.row.data`.
 - `onRowClick` is a single‑arg `(e: CustomEvent)` — row data is at `e.detail.row.data`.
 
+**Treemap (sector heat‑map)** — flat hierarchy, value‑scaled fill, classic `(sender, args)` events:
+
+```tsx
+<IgrTreemap dataSource={nodes} width="100%" height="100%"
+  idMemberPath="id" parentIdMemberPath="parent" labelMemberPath="label"
+  valueMemberPath="value"            // tile SIZE (volume) — LEAVES only
+  customValueMemberPath="changePct"  // mapped to the fill scale
+  fillScaleMode="Value" fillScaleMinimumValue={-3} fillScaleMaximumValue={3}
+  fillBrushes={[loss, neutral, gain]}  // red → neutral → green
+  headerDisplayMode="Header" headerBackground={surface2} headerTextColor={muted}
+  nodePointerPressed={(s, e) => e.item?.symbol && setSelected(e.item.symbol)} />
+```
+
+- Data is a **flat array**: one root (`parent: null`), sector parents (`parent: 'root'`), and symbol leaves (`parent: 'sec:<Sector>'`).
+- **Parent/root nodes must OMIT `value`** so the treemap sums their children; an explicit `0` collapses the whole layout to nothing.
+- Chart events use the **`(sender, args)`** signature (unlike the grids' single‑arg `CustomEvent`). The clicked data item is `e.item`.
+- Canvas‑painted → theme via **props** (`fillBrushes`, `headerBackground`, `headerTextColor`, `outline`, `darkTextColor`); resolve CSS vars to concrete colors via `useThemeColors`.
+
 **Financial chart** — themable via props for the canvas; CSS for the toolbar:
 
 ```tsx
@@ -179,7 +201,7 @@ Pane types: `IgrDockManagerPaneType.{contentPane,splitPane,tabGroupPane,document
 2. **Data layer** — `rng.ts`, `types.ts`, `symbols.ts` (232 symbols), `generators.ts` (quotes, 1,000 orders, candles, book, prints).
 3. **State** — `MarketContext.tsx`: seeded universe + ~1s tick loop + shared `selected` symbol + derived live views.
 4. **Shared grid helpers** — `cellRenderers.tsx`: formatters, `cellStyles` objects, arrow templates, side/status pill templates, the `onRowClick` factory.
-5. **Panes** — TopBar (ticker), Watchlist, Positions, ChartPane, OrderBlotter, MarketGrid, LevelII, TimeAndSales, ConfigPane.
+5. **Panes** — TopBar (ticker), Watchlist, SectorMap (treemap), Positions, ChartPane, OrderBlotter, MarketGrid, LevelII, TimeAndSales, ConfigPane.
 6. **Shell** — `Workstation.tsx` with the `IgrDockManager` layout; wire it into the route.
 7. **Register modules + import theme CSS** in `main.tsx`, wrap with `<ThemeProvider><MarketProvider>`.
 8. **Verify** — typecheck, build, run, and do the visual theme pass against the strict criteria.
@@ -197,6 +219,8 @@ Pane types: `IgrDockManagerPaneType.{contentPane,splitPane,tabGroupPane,document
 | Chart plot stays dark after switching to a light theme | `useThemeColors` read CSS vars before the theme attribute was applied (effect timing) | Apply the theme in **render** via `useMemo`, not in an effect |
 | Chart toolbar is a light‑gray bar | Light‑DOM HTML with a hard‑coded light theme | Re‑skin `.financialChart*` / `.ui-*` with scoped CSS |
 | Chart `color-mix(...)` brushes don't paint | Canvas can't parse CSS color functions | Resolve to concrete `rgba()` before passing as a brush |
+| Treemap renders nothing (empty canvas) | Parent/root nodes have an explicit `value: 0`, so the layout sums to zero | Omit `value` on parent/root nodes — let the treemap sum the leaves |
+| Treemap drill‑in resets every second | Rebinding `dataSource` each tick resets the zoom state | Throttle the live recolor (e.g. rebuild every ~3 ticks) and snapshot tile sizes once |
 
 ---
 
@@ -207,7 +231,8 @@ Pane types: `IgrDockManagerPaneType.{contentPane,splitPane,tabGroupPane,document
 - [ ] Dock manager renders 3 columns; all panes drag/float/pin/tab.
 - [ ] Watchlist shows **≥ 200** symbols; Order Blotter shows **1,000** orders, grouped + paged.
 - [ ] Candlestick chart renders with volume; type switching works.
-- [ ] Clicking a symbol row updates the chart, Level II, and Time & Sales (verified).
+- [ ] Sector heat‑map (`IgrTreemap`) renders grouped, volume‑sized, red→green tiles; clicking a tile selects the symbol.
+- [ ] Clicking a symbol row (or heat‑map tile) updates the chart, Level II, and Time & Sales (verified).
 - [ ] Ticker marquee streams and flashes ~1s.
 - [ ] Theme switching (Light/Dark × 4 palettes) and density (S/M/L) work at runtime and persist.
 - [ ] Visual pass passes every item in §3 — no off‑theme surfaces, no zebra, no bright scrollbars, themed chart.

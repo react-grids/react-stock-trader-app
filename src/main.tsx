@@ -9,7 +9,7 @@ import { applyTheme, type ThemePalette, type ThemeSize, type ThemeVariant } from
 
 // Ignite UI module registration (grids + paginator + financial chart).
 import { IgrGridModule, IgrPaginatorModule } from 'igniteui-react-grids';
-import { IgrFinancialChartModule } from 'igniteui-react-charts';
+import { IgrFinancialChartModule, IgrTreemapModule } from 'igniteui-react-charts';
 
 // Dock Manager theme variables (overridden by our palette layer below).
 import 'igniteui-dockmanager/themes/igc.themes.css';
@@ -19,6 +19,7 @@ import './components/ui.css';
 
 [IgrGridModule, IgrPaginatorModule].forEach((m) => m.register());
 IgrFinancialChartModule.register();
+IgrTreemapModule.register();
 
 // Apply the persisted theme synchronously so the Ignite UI stylesheets are
 // present before first paint (avoids a flash of unstyled grids/dock).
