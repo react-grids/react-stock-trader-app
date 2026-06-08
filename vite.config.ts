@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Served from a subpath on GitHub Pages (https://<user>.github.io/<repo>/).
+  // The deploy workflow sets VITE_BASENAME to the repo subpath; local dev keeps '/'.
+  base: process.env.VITE_BASENAME || '/',
   build: {
     chunkSizeWarningLimit: 10 * 1024 * 1024, // 10 MB
     // The shipped Ignite UI grid theme CSS contains a malformed custom-property

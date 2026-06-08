@@ -9,6 +9,11 @@
 </p>
 
 <p align="center">
+  <strong>🚀 <a href="https://react-grids.github.io/react-stock-trader-app/">Live demo</a></strong>
+</p>
+
+<p align="center">
+  <a href="https://react-grids.github.io/react-stock-trader-app/"><img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2ea44f?logo=github"></a>
   <img alt="React 19.2" src="https://img.shields.io/badge/React-19.2-149ECA?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white">
   <img alt="Vite" src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white">
@@ -73,6 +78,8 @@ This project leans on all three and adds the application‑level glue: a shared 
 ---
 
 ## Quick start
+
+**Try it now:** a live build is hosted on GitHub Pages at **<https://react-grids.github.io/react-stock-trader-app/>** — no install required.
 
 **Prerequisites:** Node.js 20+ and npm.
 
