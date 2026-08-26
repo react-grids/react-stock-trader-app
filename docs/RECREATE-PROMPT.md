@@ -155,6 +155,9 @@ Pane types: `IgrDockManagerPaneType.{contentPane,splitPane,tabGroupPane,document
 - Cell template prop is `bodyTemplate`; the render fn receives `{ dataContext }` with `dataContext.cell.value` and `dataContext.cell.row.data`.
 - `onRowClick` is a single‑arg `(e: CustomEvent)` — row data is at `e.detail.row.data`.
 
+
+Generate and initialize non-empty deterministic grid data synchronously before the first React render, register the Ignite UI grid modules at module scope, and bind the array directly to <IgrGrid data={rows}>; do not load initial rows in an effect. Give the grid and every ancestor container an explicit non-zero height (100% of the container space), initialize the Dock Manager layout on mount, and verify in a browser test that getRowByIndex(0) returns a row on the first page load
+
 **Treemap (sector heat‑map)** — flat hierarchy, value‑scaled fill, classic `(sender, args)` events:
 
 ```tsx
