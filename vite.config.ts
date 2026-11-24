@@ -2,6 +2,7 @@
 import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { fileURLToPath } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,6 +26,19 @@ export default defineConfig({
   },
   resolve: {
     mainFields: ['module'],
+    alias: [
+      // igniteui-dockmanager 2.2.1+ (pulled in by igniteui-react-dockmanager 19.9+)
+      // moved its theme CSS from `styles/` to `src/themes/` but its package.json
+      // exports map still points `./themes/*.css` at `./styles/*.css`, so the
+      // documented import fails to resolve. Point it at the real file. Remove this
+      // once a dockmanager release fixes the exports map.
+      {
+        find: /^igniteui-dockmanager\/themes\/(.+\.css)$/,
+        replacement: fileURLToPath(
+          new URL('./node_modules/igniteui-dockmanager/src/themes/$1', import.meta.url),
+        ),
+      },
+    ],
   },
   server: {
     open: true,

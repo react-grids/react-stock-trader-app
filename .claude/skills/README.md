@@ -1,98 +1,116 @@
-# LLM Agent Skills for Ignite UI for React
+# Ignite UI for React - from Infragistics
 
-This directory contains skills for GitHub Copilot and other LLM agents to help developers use **Ignite UI for React** effectively in their applications.
+[![npm version](https://badge.fury.io/js/igniteui-react.svg)](https://badge.fury.io/js/igniteui-react)
+[![Discord](https://img.shields.io/discord/836634487483269200?logo=discord&logoColor=ffffff)](https://discord.gg/39MjrTRqds)
 
-## What are Skills?
+[Ignite UI for React](https://www.infragistics.com/products/ignite-ui-react) includes a wide range of easy to use React UI components that have been designed and optimized for high-performance, high-volume data scenarios. Ignite UI for React is designed to enable developers to build the most modern, high-performance HTML5 & JavaScript apps for modern desktop browsers, mobile experiences and progressive web apps (PWA's) targeting the React framework.
 
-Skills are structured instructions that help AI agents understand and execute common tasks consistently. Each skill is a self-contained guide that provides step-by-step instructions, code examples, and best practices — all specific to React and the `igniteui-react` family of packages.
+## Browser Support
 
-## Available Skills
+| ![Chrome](https://user-images.githubusercontent.com/2188411/168109445-fbd7b217-35f9-44d1-8002-1eb97e39cdc6.png) | ![Firefox](https://user-images.githubusercontent.com/2188411/168109465-e46305ee-f69f-4fa5-8f4a-14876f7fd3ca.png) | ![Edge](https://user-images.githubusercontent.com/2188411/168109472-a730f8c0-3822-4ae6-9f54-785a66695245.png) | ![Opera](https://user-images.githubusercontent.com/2188411/168109520-b6865a6c-b69f-44a4-9948-748d8afd687c.png) | ![Safari](https://user-images.githubusercontent.com/2188411/168109527-6c58f2cf-7386-4b97-98b1-cfe0ab4e8626.png) |
+| --------------- | ---------------- | ------------- | -------------- | --------------- |
+| Latest ✔️       | Latest ✔️        | Latest ✔️     | Latest ✔️      | Latest ✔️       |
 
-| Skill | Description | Use When |
-| --- | --- | --- |
-| [igniteui-react-components](./igniteui-react-components/SKILL.md) | Identify the right React components (`Igr*`) for a UI pattern, then install, import, and use them - JSX patterns, events, refs, forms | Choosing components or setting up and using them in React |
-| [igniteui-react-customize-theme](./igniteui-react-customize-theme/SKILL.md) | Customize styling using CSS custom properties, Sass, and the theming system in a React context | Applying custom brand colors/styles |
-| [igniteui-react-optimize-bundle-size](./igniteui-react-optimize-bundle-size/SKILL.md) | Reduce bundle size with granular imports, tree-shaking, and lazy loading | Optimizing production performance |
-| [igniteui-react-generate-from-image-design](./igniteui-react-generate-from-image-design/SKILL.md) | Build a React view from a screenshot or mockup using Ignite UI components plus MCP-first theming and token mapping | Converting a design image into a working Ignite UI React page or dashboard |
+## Components
 
-## How to Use
+This package provides the following components:
 
-When working with an AI agent like GitHub Copilot, reference skills by name or ask questions naturally:
+| Component | Status | Documentation |
+|:----------|:------:|:-------------:|
+| Grid Lite (requires [igniteui-grid-lite](https://www.npmjs.com/package/igniteui-grid-lite)) | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/grid-lite/overview) |
+| AI Chat | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/interactivity/chat) |
+| Accordion | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/accordion) |
+| Avatar | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/avatar) |
+| Badge | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/badge) |
+| Banner | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/notifications/banner) |
+| Button | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/button) |
+| Button Group | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/button-group) |
+| Calendar | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/scheduling/calendar) |
+| Card | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/card) |
+| Carousel | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/carousel) |
+| Checkbox | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/checkbox) |
+| Chip | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/chip) |
+| ComboBox | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/combo/overview) |
+| Date Picker | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/scheduling/date-picker) |
+| Date Range Picker | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/scheduling/date-range-picker) |
+| Date Time Input | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/date-time-input) |
+| Dialog | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/notifications/dialog) |
+| Divider | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/divider) |
+| Dropdown | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/dropdown) |
+| Expansion Panel | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/expansion-panel) |
+| Icon | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/icon) |
+| Icon Button | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/icon-button) |
+| Input | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/input) |
+| Linear Progress | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/linear-progress) |
+| List | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/grids/list) |
+| Mask Input | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/mask-input) |
+| Navigation Bar (Navbar) | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/menus/navbar) |
+| Navigation Drawer | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/menus/navigation-drawer) |
+| Radio & Radio Group | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/radio) |
+| Rating | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/rating) |
+| Ripple | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/ripple) |
+| Select | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/select) |
+| Slider & Range Slider | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/slider) |
+| Snackbar | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/notifications/snackbar) |
+| Stepper | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/stepper) |
+| Switch | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/switch) |
+| Tabs | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/tabs) |
+| Text Area | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/text-area) |
+| Tile Manager | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/layouts/tile-manager) |
+| Toast | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/notifications/toast) |
+| Tooltip | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/inputs/tooltip) |
+| Tree | ✅ | [Docs](https://www.infragistics.com/products/ignite-ui-react/react/components/grids/tree) |
 
-### Natural Questions
-
-- "How do I add a data grid to my React app?"
-- "What Ignite UI component should I use for a date picker?"
-- "Build this dashboard screenshot in Ignite UI React"
-- "Help me customize the button colors to match my brand"
-- "My bundle size is too large, how can I reduce it?"
-- "How do I handle events on IgrCombo?"
-
-### Direct Skill Reference
-
-- "Follow the igniteui-react-components skill for setting up my project"
-- "Use the igniteui-react-generate-from-image-design skill for this mockup"
-- "Use the igniteui-react-customize-theme skill to help me style components"
-- "Apply the igniteui-react-optimize-bundle-size skill to reduce my bundle"
-
-## Skill Structure
-
-Each skill contains:
-
-- **Example Usage**: Common questions or scenarios
-- **When to Use**: Situations where the skill applies
-- **Related Skills**: Other relevant skills to explore
-- **Step-by-Step Instructions**: Detailed guidance with code examples
-- **Common Issues & Solutions**: Troubleshooting guidance
-- **Best Practices**: Recommended approaches
-- **Additional Resources**: Further reading and documentation
-
-## Editor / Agent Setup
-
-Most modern AI assistants (GitHub Copilot, Cursor, Windsurf, Claude Code, etc.) should auto-discover these skills from a specified location in the workspace or global profile.
-
-For example, you can copy them into the agent-specific skills folder for your editor:
-
-### GitHub Copilot
-
-Copy the skill files into your project's `.agents/skills/` directory:
-
-```
-.agents/
-  skills/
-    igniteui-react-components/
-      SKILL.md
-      reference/
-    igniteui-react-customize-theme/
-      SKILL.md
-      reference/
-    igniteui-react-optimize-bundle-size/
-      SKILL.md
-    igniteui-react-generate-from-image-design/
-      SKILL.md
-      references/
-```
-
-### Claude Code
-
-Copy the skill files into your project's `.claude/skills/` directory:
-
-```
-.claude/
-  skills/
-    igniteui-react-components/
-      SKILL.md
-      reference/
-    igniteui-react-customize-theme/
-      SKILL.md
-      reference/
-    igniteui-react-optimize-bundle-size/
-      SKILL.md
-    igniteui-react-generate-from-image-design/
-      SKILL.md
-      references/
+## AI-Assisted Development
+ 
+Ignite UI for React provides a toolchain to enhance the AI coding workflow — **Agent Skills**, the **Ignite UI CLI MCP server**, the **Ignite UI Theming MCP server**, and the **MAKER MCP server** — that grounds AI coding assistants in correct component APIs, import paths, and design tokens.
+ 
+| Component | What it provides |
+|:----------|:----------------|
+| **Agent Skills** | Structured specialized knowledge and workflow files: import paths, component patterns, decision flows, generate from image design |
+| **CLI MCP server** (`igniteui-cli`) | Documentation queries, API reference, project scaffolding tools via MCP |
+| **Theming MCP server** (`igniteui-theming`) | Design tokens, palette tools, CSS custom property generation, WCAG AA contrast validation |
+| **MAKER MCP server** (`@igniteui/maker-mcp`) | Multi-agent orchestration: decomposes complex tasks into validated, executable step plans |
+ 
+> **Note:** All AI toolchain commands require Ignite UI CLI 15.0.0 or newer.
+ 
+### Add AI toolchain to an existing project
+ 
+Run this command from the root of your project:
+ 
+```bash
+ig ai-config
 ```
 
-### Other Agents (Cursor, Windsurf, etc.)
+> If the Ignite UI CLI is not installed globally, run `npm install -g igniteui-cli`.
 
-Consult your agent's documentation for the correct skills directory path and copy the skill files there. The skill structure is agent-agnostic — any assistant that supports skill files can use them directly.
+This adds Agent Skills and instructions to agent discovery path(s) and configures MCP server entries. 
+ 
+### Start a new project with AI toolchain
+ 
+Run the Ignite UI CLI to scaffold a new React project with the AI toolchain configured from the start:
+ 
+```bash
+ig new
+```
+> If the Ignite UI CLI is not installed globally, run `npm install -g igniteui-cli`.
+ 
+### Agent Skills
+ 
+This package ships with **Agent Skills** — structured knowledge files that tell AI coding assistants exactly how to use Ignite UI for React. The skill files are included in the [`igniteui-react`](https://www.npmjs.com/package/igniteui-react) package and also live in the [`skills/`](https://github.com/IgniteUI/igniteui-react/tree/master/skills) directory.
+ 
+| Skill | Description |
+|:------|:------------|
+| **components** | Identify the right React components (`Igr*`) for a UI pattern, then install, import, and use them — JSX patterns, events, refs, forms, Next.js setup |
+| **customize-theme** | Customize styling using CSS custom properties, Sass, and the theming system in React |
+| **optimize-bundle-size** | Reduce bundle size with granular imports, tree-shaking, and lazy loading |
+| **generate-from-image-design** | Turn a screenshot, mockup, or wireframe into a React view using Ignite UI components, MCP-guided theming, and screenshot-first layout matching |
+ 
+When a Skill is active in the AI client, the agent follows the Skill instead of relying on general training data — which may reference outdated API signatures or import paths.
+ 
+ 
+For full setup instructions, see the [AI-Assisted Development documentation](https://www.infragistics.com/products/ignite-ui-react/react/components/ai/ai-assisted-development-overview).
+
+## License
+
+MIT-licensed package. See [LICENSE](LICENSE) for details.

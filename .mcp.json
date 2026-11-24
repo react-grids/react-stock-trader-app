@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "igniteui-cli",
+        "igniteui-cli@latest",
         "mcp"
       ]
     },
@@ -12,7 +12,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "igniteui-theming",
+        "igniteui-theming@latest",
         "igniteui-theming-mcp"
       ]
     }
